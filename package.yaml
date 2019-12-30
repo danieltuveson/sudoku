@@ -1,29 +1,31 @@
 name:                sudoku
 version:             0.1.0.0
-github:              "githubuser/sudoku"
+github:              "danieltuveson/sudoku"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2019 Author name here"
+author:              "Daniel Tuveson"
+maintainer:          "danieltuveson@gmail.com"
+copyright:           "2019 Daniel Tuveson"
 
 extra-source-files:
 - README.md
 - ChangeLog.md
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+# synopsis:            A brute force sudoku solver
+# category:            Fun
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/sudoku#readme>
+description:         Please see the README on GitHub at <https://github.com/danieltuveson/sudoku#readme>
 
 dependencies:
 - base >= 4.7 && < 5
 
 library:
   source-dirs: src
+  dependencies: 
+  - array
 
 executables:
   sudoku-exe:
