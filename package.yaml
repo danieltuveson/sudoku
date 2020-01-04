@@ -26,6 +26,7 @@ library:
   source-dirs: src
   dependencies: 
   - array
+  - ilist
 
 executables:
   sudoku-exe:
@@ -48,3 +49,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - sudoku
+    - HUnit
