@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Lib(runSudoku)
 
 main :: IO ()
-main = someFunc
+main = runSudoku

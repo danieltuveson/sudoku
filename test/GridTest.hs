@@ -2,6 +2,9 @@ module GridTest(gridTests) where
 
 import Test.HUnit
 import Grid
+import Validation 
+import Solve
+import Parse 
 
 -- taken from https://www.websudoku.com/?level=1&set_id=141215464
 testGrid :: Grid 
@@ -59,8 +62,8 @@ testSolution = Just $ Grid
     ]
 
 
-getEmptyCellsOutPut :: Points
-getEmptyCellsOutPut = 
+getEmptyCellsOutput :: Points
+getEmptyCellsOutput = 
     [
         (1, 2), (1, 4), (1, 6), (1, 8), 
         (2, 1), (2, 2), (2, 5), (2, 6), (2, 7), (2, 9), 
@@ -73,9 +76,25 @@ getEmptyCellsOutPut =
         (9, 2), (9, 4), (9, 6), (9, 8)
     ]
 
+parseGridActual = parse "...........12345...2.6.5.7..58...31..6.....5..17...82..3.7.2.4...21439..........."
+
+parseGridExpected = Right $ 
+    Grid 
+    [
+        ((1, 1), Nothing), ((1, 2), Nothing), ((1, 3), Nothing), ((1, 4), Nothing), ((1, 5), Nothing), ((1, 6), Nothing), ((1, 7), Nothing), ((1, 8), Nothing), ((1, 9), Nothing), 
+        ((2, 1), Nothing), ((2, 2), Nothing), ((2, 3), Just 1), ((2, 4), Just 2), ((2, 5), Just 3), ((2, 6), Just 4), ((2, 7), Just 5), ((2, 8), Nothing), ((2, 9), Nothing), 
+        ((3, 1), Nothing), ((3, 2), Just 2), ((3, 3), Nothing), ((3, 4), Just 6), ((3, 5), Nothing), ((3, 6), Just 5), ((3, 7), Nothing), ((3, 8), Just 7), ((3, 9), Nothing), 
+        ((4, 1), Nothing), ((4, 2), Just 5), ((4, 3), Just 8), ((4, 4), Nothing), ((4, 5), Nothing), ((4, 6), Nothing), ((4, 7), Just 3), ((4, 8), Just 1), ((4, 9), Nothing), 
+        ((5, 1), Nothing), ((5, 2), Just 6), ((5, 3), Nothing), ((5, 4), Nothing), ((5, 5), Nothing), ((5, 6), Nothing), ((5, 7), Nothing), ((5, 8), Just 5), ((5, 9), Nothing), 
+        ((6, 1), Nothing), ((6, 2), Just 1), ((6, 3), Just 7), ((6, 4), Nothing), ((6, 5), Nothing), ((6, 6), Nothing), ((6, 7), Just 8), ((6, 8), Just 2), ((6, 9), Nothing), 
+        ((7, 1), Nothing), ((7, 2), Just 3), ((7, 3), Nothing), ((7, 4), Just 7), ((7, 5), Nothing), ((7, 6), Just 2), ((7, 7), Nothing), ((7, 8), Just 4), ((7, 9), Nothing), 
+        ((8, 1), Nothing), ((8, 2), Nothing), ((8, 3), Just 2), ((8, 4), Just 1), ((8, 5), Just 4), ((8, 6), Just 3), ((8, 7), Just 9), ((8, 8), Nothing), ((8, 9), Nothing), 
+        ((9, 1), Nothing), ((9, 2), Nothing), ((9, 3), Nothing), ((9, 4), Nothing), ((9, 5), Nothing), ((9, 6), Nothing), ((9, 7), Nothing), ((9, 8), Nothing), ((9, 9), Nothing)
+    ]
+
 
 -- test for getEmptyCells
-getEmptyCellsTest  = TestCase $ assertEqual "for getEmptyCells," getEmptyCellsOutPut (getEmptyCells testGrid)
+getEmptyCellsTest  = TestCase $ assertEqual "for getEmptyCells," getEmptyCellsOutput (getEmptyCells testGrid)
 getEmptyCellsLabel = TestLabel "test getEmptyCells" getEmptyCellsTest
 
 -- test for updateState 
@@ -92,6 +111,11 @@ isValidMoveTest  =
     in TestCase (assertBool "for isValidMove," (and [validMove1, validMove2, invalidMove1, invalidMove2, invalidMove3]))
 isValidMoveLabel = TestLabel "test isValidMove" isValidMoveTest
 
+-- test for parse
+parseTest = TestCase (assertEqual "for parse," parseGridExpected parseGridActual)
+parseLabel = TestLabel "test parse" parseTest
+
+
 -- test for solve
 solveTest  = TestCase (assertEqual "for solve," testSolution (solve testGrid (getEmptyCells testGrid) 1))
 solveLabel = TestLabel "test solve" solveTest
@@ -101,5 +125,6 @@ gridTests =
         getEmptyCellsLabel, 
         updateStateLabel, 
         isValidMoveLabel,
-        solveLabel 
+        solveLabel,
+        parseLabel
     ]

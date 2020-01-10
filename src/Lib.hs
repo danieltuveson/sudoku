@@ -1,6 +1,15 @@
-module Lib
-    ( someFunc
-    ) where
+module Lib(runSudoku) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Parse
+import Solve
+
+runSudoku :: IO ()
+runSudoku = 
+    do 
+        line <- getLine
+        case parse line of 
+            Left err   -> print err
+            Right grid -> 
+                case getSolution grid of 
+                    Nothing       -> print "invalid sudoku, no solution exists."
+                    Just solution -> print $ "sudoku solved!\n" ++ show solution
