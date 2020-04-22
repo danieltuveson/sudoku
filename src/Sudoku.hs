@@ -1,4 +1,4 @@
-module Lib(solveLine) where
+module Sudoku(solveLine) where
 
 import Parse
 import Solve
