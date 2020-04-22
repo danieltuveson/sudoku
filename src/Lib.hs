@@ -1,15 +1,13 @@
-module Lib(runSudoku) where
+module Lib(solveLine) where
 
 import Parse
 import Solve
 
-runSudoku :: IO ()
-runSudoku = 
-    do 
-        line <- getLine
-        case parse line of 
-            Left err   -> print err
-            Right grid -> 
-                case getSolution grid of 
-                    Nothing       -> print "invalid sudoku, no solution exists."
-                    Just solution -> print $ "sudoku solved!\n" ++ show solution
+solveLine :: String -> String 
+solveLine str = 
+    case parse str of 
+        Left err   -> err
+        Right grid -> 
+            case getSolution grid of 
+                Nothing       -> "invalid sudoku, no solution exists."
+                Just solution -> "sudoku solved!\n" ++ show solution

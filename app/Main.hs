@@ -1,6 +1,6 @@
 module Main where
 
-import Lib(runSudoku)
+import Lib(solveLine)
 
 main :: IO ()
-main = runSudoku
+main = getLine >>= (return . solveLine) >>= print 
