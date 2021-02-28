@@ -5,6 +5,7 @@ import Data.Char(isDigit, digitToInt)
 
 type Error = String 
 
+
 -- takes in a string
 parse :: String -> Either Error Grid
 parse str
@@ -20,10 +21,10 @@ parse str
 -- grid if possible. Returns nothing if the string is invalid
 -- assumes input is 81 characters and string only contains 1 - 9 and '.'
 toGrid :: String -> Grid 
-toGrid str = Grid $ zip points (toValues str)
-    where points  = [(i,j) | i <- [1..9], j <- [1..9]]
+toGrid str = Grid $ zipWith Cell points (toValues str)
+    where points  = [Point i j | i <- [1..9], j <- [1..9]]
 
-toValues :: String -> [CellValue]
+toValues :: String -> [Maybe Int]
 toValues str = map toValue str
     where toValue ch
                 | ch == '.'  = Nothing 

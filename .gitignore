@@ -1,3 +1,4 @@
 .stack-work/
 sudoku.cabal
+.DS_Store
 *~

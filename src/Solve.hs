@@ -13,7 +13,7 @@ getSolution g = solve g (getEmptyCells g) 1
 -- takes in state of the board as a list of (Row, Col, Maybe Value) 
 -- and a list of (Row, Col, Maybe Value) (with Maybe value being Nothing) to fill
 -- and returns the solution if it is solvable 
-solve :: Grid -> Points -> Int -> Maybe Grid
+solve :: Grid -> [Point] -> Int -> Maybe Grid
 solve _ _ num | num > 9      = Nothing 
 solve state [] _             = Just state
 solve state ls@(x : xs) num
@@ -23,9 +23,9 @@ solve state ls@(x : xs) num
     where solution = solve (updateState state x num) xs 1
 
 
--- Adds (point, Just num) to the grid
+-- Adds Point point (Just num) to the grid
 updateState :: Grid -> Point -> Int -> Grid
-updateState (Grid state) point num = Grid $ map (replace point num) state 
-    where replace point num cell@(sPoint, _)
-            | sPoint == point = (point, Just num)
-            | otherwise       = cell
+updateState (Grid state) point num = Grid $ replace point num <$> state 
+    where replace point num cell
+            | cellPoint cell == point = Cell point $ Just num
+            | otherwise = cell
